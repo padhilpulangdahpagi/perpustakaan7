@@ -1,62 +1,58 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Models\Buku;
-use App\Models\Anggota;
+use App\Http\Controllers\KategoriController;
 
-Route::get('/test-accessor-scope', function () {
-    $semuaBuku = Buku::all();
-    $bukuTerbaru = Buku::terbaru()->get();
-    $bukuStokMenipis = Buku::stokMenipis()->get();
-    
-    $semuaAnggota = Anggota::all();
-    $anggotaBulanIni = Anggota::terdaftarBulanIni()->get();
-
-    $bukuRows = '';
-    foreach($semuaBuku as $b) {
-        $bukuRows .= "<tr><td>{$b->judul}</td><td>{$b->tahun_terbit}</td><td><span class='badge bg-dark'>{$b->tahun_label}</span></td><td>{$b->stok}</td><td>{$b->status_stok_badge}</td></tr>";
-    }
-
-    $bukuTerbaruList = '';
-    foreach($bukuTerbaru as $bt) { 
-        $bukuTerbaruList .= "<li class='list-group-item'>🟢 {$bt->judul} ({$bt->tahun_terbit})</li>"; 
-    }
-
-    $stokMenipisList = '';
-    foreach($bukuStokMenipis as $bs) { 
-        $stokMenipisList .= "<li class='list-group-item list-group-item-danger'>⚠️ {$bs->judul} (Stok: {$bs->stok})</li>"; 
-    }
-
-    $anggotaRows = '';
-    foreach($semuaAnggota as $a) {
-        $anggotaRows .= "<tr><td>{$a->nama}</td><td>{$a->tanggal_lahir}</td><td><span class='badge bg-info text-dark'>{$a->kategori_usia}</span></td><td>{$a->status_badge}</td></tr>";
-    }
-
-    $anggotaBulanIniList = '';
-    foreach($anggotaBulanIni as $ab) { 
-        $anggotaBulanIniList .= "<li class='list-group-item'>👤 {$ab->nama} (Join: {$ab->created_at->format('d M Y')})</li>"; 
-    }
-
-    return "
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
-    </head>
-    <body class='p-5'>
-        <div class='container'>
-            <h1>Testing Accessor & Scope</h1>
-            <h3>Buku</h3>
-            <table class='table'>{$bukuRows}</table>
-            <h3>Buku Terbaru</h3>
-            <ul>{$bukuTerbaruList}</ul>
-            <h3>Stok Menipis</h3>
-            <ul>{$stokMenipisList}</ul>
-            <h3>Anggota</h3>
-            <table class='table'>{$anggotaRows}</table>
-            <h3>Anggota Baru</h3>
-            <ul>{$anggotaBulanIniList}</ul>
-        </div>
-    </body>
-    </html>";
+// Halaman utama langsung tak redirect neng daftar anggota ben ra bingung
+Route::get('/', function () {
+    return redirect()->route('anggota.index');
 });
+
+// TUGAS 1
+$anggota_list = [
+    1 => [
+        'id' => 1, 'kode' => 'AGT-001', 'nama' => 'Budi Santoso', 
+        'email' => 'budi@email.com', 'telepon' => '081234567890', 
+        'alamat' => 'Jakarta', 'status' => 'Aktif'
+    ],
+    2 => [
+        'id' => 2, 'kode' => 'AGT-002', 'nama' => 'Siti Aminah', 
+        'email' => 'siti@email.com', 'telepon' => '085712345678', 
+        'alamat' => 'Pekalongan', 'status' => 'Aktif'
+    ],
+    3 => [
+        'id' => 3, 'kode' => 'AGT-003', 'nama' => 'Fadhil Naja', 
+        'email' => 'fadhil@email.com', 'telepon' => '089699887766', 
+        'alamat' => 'Kajen', 'status' => 'Aktif'
+    ],
+    4 => [
+        'id' => 4, 'kode' => 'AGT-004', 'nama' => 'Ahmad Rifa\'i', 
+        'email' => 'rifai@email.com', 'telepon' => '082144332211', 
+        'alamat' => 'Batang', 'status' => 'Non-Aktif'
+    ],
+    5 => [
+        'id' => 5, 'kode' => 'AGT-005', 'nama' => 'Dewi Lestari', 
+        'email' => 'dewi@email.com', 'telepon' => '081399881122', 
+        'alamat' => 'Semarang', 'status' => 'Aktif'
+    ],
+];
+
+// Route Daftar Anggota
+Route::get('/anggota', function () use ($anggota_list) {
+    return view('anggota.index', compact('anggota_list'));
+})->name('anggota.index');
+
+// Route Detail Anggota
+Route::get('/anggota/{id}', function ($id) use ($anggota_list) {
+    if (!array_key_exists($id, $anggota_list)) {
+        abort(404, 'Anggota ora ketemu, Su!');
+    }
+    $anggota = $anggota_list[$id];
+    return view('anggota.show', compact('anggota'));
+})->name('anggota.show');
+
+
+// ==================== TUGAS 2: ROUTING KATEGORI (MVC) ====================
+Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
+Route::get('/kategori/{id}', [KategoriController::class, 'show'])->name('kategori.show');
+Route::get('/kategori/search/{keyword}', [KategoriController::class, 'search'])->name('kategori.search');
