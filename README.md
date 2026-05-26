@@ -24,17 +24,17 @@ Implementasi Tugas Terstruktur MVC (Routing, View, Controller) dengan penambahan
 
 ## 📸 Dokumentasi Bukti Hasil di Browser
 
-### 👥 1. Halaman Daftar Anggota (`/anggota`)
+###  1. Halaman Daftar Anggota (`/anggota`)
 ![Daftar Anggota](screenshot/tugas9_anggota_index.png)
 
-### 🔍 2. Halaman Detail Anggota (`/anggota/3`)
+###  2. Halaman Detail Anggota (`/anggota/3`)
 ![Detail Anggota](screenshot/tugas9_anggota_show.png)
 
-### 📂 3. Halaman Daftar Kategori Buku (`/kategori`)
+###  3. Halaman Daftar Kategori Buku (`/kategori`)
 ![Daftar Kategori](screenshot/tugas9_kategori_index.png)
 
-### 📖 4. Halaman Detail Kategori (`/kategori/1`)
+###  4. Halaman Detail Kategori (`/kategori/1`)
 ![Detail Kategori](screenshot/tugas9_kategori_show.png)
 
-### ⚡ 5. Halaman Hasil Pencarian Kategori (`/kategori/search/programming`)
+###  5. Halaman Hasil Pencarian Kategori (`/kategori/search/programming`)
 ![Search Kategori](screenshot/tugas9_kategori_search.png)
