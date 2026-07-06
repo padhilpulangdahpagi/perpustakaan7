@@ -118,3 +118,5 @@ Route::get('/test-accessor-scope', function () {
 // ==========================================
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/dashboard/search', [DashboardController::class, 'search'])->name('dashboard.search');
+Route::resource('buku-crud', \App\Http\Controllers\BukuController::class);
+Route::post('buku-bulk-delete', [\App\Http\Controllers\BukuController::class, 'bulkDelete']);
