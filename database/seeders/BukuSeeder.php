@@ -16,7 +16,7 @@ class BukuSeeder extends Seeder
             [
                 'kode_buku' => 'BK-001',
                 'judul' => 'Laravel 12 untuk Pemula',
-                'kategori_id' => 1, // Connect ke ID 1 (Programming)
+                'kategori_id' => 1, // Programming
                 'pengarang' => 'John Doe',
                 'penerbit' => 'Tech Publisher',
                 'tahun_terbit' => 2024,
@@ -29,7 +29,7 @@ class BukuSeeder extends Seeder
             [
                 'kode_buku' => 'BK-002',
                 'judul' => 'MySQL Advanced Techniques',
-                'kategori_id' => 2, // Connect ke ID 2 (Database)
+                'kategori_id' => 2, // Database
                 'pengarang' => 'Jane Smith',
                 'penerbit' => 'Data Press',
                 'tahun_terbit' => 2023,
@@ -42,7 +42,7 @@ class BukuSeeder extends Seeder
             [
                 'kode_buku' => 'BK-003',
                 'judul' => 'Modern Web Design',
-                'kategori_id' => 3, // Connect ke ID 3 (Web Design)
+                'kategori_id' => 3, // Web Design
                 'pengarang' => 'Ahmad Yani',
                 'penerbit' => 'Creative Media',
                 'tahun_terbit' => 2024,
@@ -55,7 +55,7 @@ class BukuSeeder extends Seeder
             [
                 'kode_buku' => 'BK-004',
                 'judul' => 'Network Security Fundamentals',
-                'kategori_id' => 4, // Connect ke ID 4 (Networking)
+                'kategori_id' => 4, // Networking
                 'pengarang' => 'Robert Johnson',
                 'penerbit' => 'Security Press',
                 'tahun_terbit' => 2023,
@@ -68,7 +68,7 @@ class BukuSeeder extends Seeder
             [
                 'kode_buku' => 'BK-005',
                 'judul' => 'Data Science dengan Python',
-                'kategori_id' => 5, // Connect ke ID 5 (Data Science)
+                'kategori_id' => 5, // Data Science
                 'pengarang' => 'Siti Nurhaliza',
                 'penerbit' => 'Analytics Publisher',
                 'tahun_terbit' => 2024,
@@ -77,6 +77,45 @@ class BukuSeeder extends Seeder
                 'stok' => 18,
                 'deskripsi' => 'Panduan praktis data science menggunakan Python',
                 'bahasa' => 'Indonesia',
+            ],
+            [
+                'kode_buku' => 'BK-006',
+                'judul' => 'PHP 8 Programming',
+                'kategori_id' => 1, // Programming
+                'pengarang' => 'Budi Raharjo',
+                'penerbit' => 'Code House',
+                'tahun_terbit' => 2023,
+                'isbn' => '978-602-1234-56-6',
+                'harga' => 130000,
+                'stok' => 0, // ini bakal dapet badge Habis
+                'deskripsi' => 'Fitur-fitur terbaru PHP 8',
+                'bahasa' => 'Indonesia',
+            ],
+            [
+                'kode_buku' => 'BK-007',
+                'judul' => 'PostgreSQL Administration',
+                'kategori_id' => 2, // Database
+                'pengarang' => 'David Wilson',
+                'penerbit' => 'Database Pro',
+                'tahun_terbit' => 2024,
+                'isbn' => '978-602-1234-56-7',
+                'harga' => 195000,
+                'stok' => 12,
+                'deskripsi' => 'Administrasi dan optimasi PostgreSQL',
+                'bahasa' => 'Inggris',
+            ],
+            [
+                'kode_buku' => 'BK-008',
+                'judul' => 'React & Next.js Development',
+                'kategori_id' => 1, // Programming
+                'pengarang' => 'Sarah Anderson',
+                'penerbit' => 'Frontend Press',
+                'tahun_terbit' => 2024,
+                'isbn' => '978-602-1234-56-8',
+                'harga' => 165000,
+                'stok' => 22,
+                'deskripsi' => 'Membangun aplikasi modern dengan React dan Next.js',
+                'bahasa' => 'Inggris',
             ],
         ];
  

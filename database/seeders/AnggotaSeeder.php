@@ -4,6 +4,7 @@ namespace Database\Seeders;
  
 use Illuminate\Database\Seeder;
 use App\Models\Anggota;
+use Carbon\Carbon;
  
 class AnggotaSeeder extends Seeder
 {

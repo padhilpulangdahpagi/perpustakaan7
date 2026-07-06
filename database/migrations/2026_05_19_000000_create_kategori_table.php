@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('kategori', function (Blueprint $table) {
             $table->id(); // Ini otomatis menjadi Primary Key (id) yang bertipe BigInteger
             $table->string('nama_kategori', 50)->unique();
+            $table->string('icon', 50)->nullable(); // string(50), boleh null
+            $table->string('warna', 20)->nullable(); // string(20), boleh null
             $table->text('deskripsi')->nullable();
             $table->timestamps();
         });

@@ -1,6 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"></head>
-<body>
-<nav class="navbar navbar-dark bg-dark mb-4"><div class="container">Perpustakaan</div></nav>
-<div class="container">
+<?php
+
+namespace App\View\Components;
+
+use Illuminate\View\Component;
+use App\Models\Buku;
+
+class BukuCard extends Component
+{
+    public $buku;
+
+    public function __construct(Buku $buku)
+    {
+        $this->buku = $buku;
+    }
+
+    public function render()
+    {
+        return view('components.buku-card');
+    }
+}

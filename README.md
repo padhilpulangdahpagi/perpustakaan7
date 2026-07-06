@@ -1,40 +1,37 @@
-# 📚 Tugas Pertemuan 9 - Pemrograman Web (Informatika UIN Gusdur)
+# 📚 Tugas Pertemuan 10 - Pemrograman Web 2 (Informatika UIN Gusdur)
 
-Implementasi Tugas Terstruktur MVC (Routing, View, Controller) dengan penambahan Master Layout dan Named Routes (+Bonus 10%).
+Implementasi Database dengan Migration, Model, Seeder, serta Penerapan Eloquent Accessor & Query Scope.
 
 ## Identitas
-- **Nama:** Fadhil Naja
-- **Prodi:** Informatika
-- **Fakultas:** Ekonomi dan Bisnis Islam (FEBI)
+- Nama:Fadhil Naja
+- Prodi:Informatika
+- Fakultas:Ekonomi dan Bisnis Islam (FEBI)
 
 ---
 
-##  Fitur & Rute Sistem Perpustakaan
+## 🛠️ Fitur & Cakupan Tugas
 
-### Tugas 1: Routing dan View untuk Anggota
-* **Daftar Anggota** (`/anggota`) - Menampilkan minimal 5 data anggota perpustakaan menggunakan tabel Bootstrap 5.
-* **Detail Anggota** (`/anggota/{id}`) - Menampilkan informasi lengkap data anggota tertentu menggunakan komponen Card Bootstrap 5.
+### Tugas 1: Database Migration & Seeder Kategori (40%)
+* **Migration & Seeder:** Membuat database `perpustakaan_praktek` beserta tabel `kategori`, lalu mengisinya dengan data default (Programming, Database, Web Design, Networking, Data Science) menggunakan `KategoriSeeder`.
 
-### Tugas 2: Controller untuk Kategori Buku (MVC)
-* **Daftar Kategori** (`/kategori`) - Menampilkan daftar kategori buku menggunakan Card Bootstrap 5 lewat `KategoriController@index`.
-* **Detail Kategori** (`/kategori/{id}`) - Menampilkan detail kategori beserta sub-tabel daftar buku di dalamnya lewat `KategoriController@show`.
-* **Pencarian Kategori** (`/kategori/search/{keyword}`) - Fitur filter pencarian kategori dilengkapi highlight keyword lewat `KategoriController@search`.
+### Tugas 2: Eloquent Model, Accessor, & Query Scope (60%)
+* **Model Buku (`Buku.php`):**
+  * Accessor `status_stok_badge`: Menampilkan badge Bootstrap (Aman/Sedang/Menipis/Habis) sesuai jumlah stok.
+  * Accessor `tahun_label`: Memberikan label "Buku Baru" ($\ge$ 2024) atau "Buku Lama".
+  * Query Scope: `scopeStokMenipis()`, `scopeHargaRange()`, dan `scopeTerbaru()`.
+* **Model Anggota (`Anggota.php`):**
+  * Accessor `status_badge`: Menampilkan badge "Aktif" atau "Nonaktif".
+  * Accessor `kategori_usia`: Mengelompokkan umur anggota menjadi Remaja, Dewasa, atau Senior.
+  * Query Scope: `scopeJenisKelamin()` dan `scopeTerdaftarBulanIni()`.
 
 ---
 
-## 📸 Dokumentasi Bukti Hasil di Browser
+## Dokumentasi Bukti Hasil Praktikum
 
-###  1. Halaman Daftar Anggota (`/anggota`)
-![Daftar Anggota](screenshot/tugas9_anggota_index.png)
+### 1. Struktur Data & Seeder Kategori di phpMyAdmin (Tugas 1)
+Berikut adalah bukti data kategori yang berhasil masuk ke database melalui proses migration dan seeding:
+![Bukti Database](tugasP10bkti_database.png)
 
-###  2. Halaman Detail Anggota (`/anggota/3`)
-![Detail Anggota](screenshot/tugas9_anggota_show.png)
-
-###  3. Halaman Daftar Kategori Buku (`/kategori`)
-![Daftar Kategori](screenshot/tugas9_kategori_index.png)
-
-###  4. Halaman Detail Kategori (`/kategori/1`)
-![Detail Kategori](screenshot/tugas9_kategori_show.png)
-
-###  5. Halaman Hasil Pencarian Kategori (`/kategori/search/programming`)
-![Search Kategori](screenshot/tugas9_kategori_search.png)
+### 2. Output Pengujian Accessor & Scope di Browser (Tugas 2)
+Berikut adalah hasil render route `/test-accessor-scope` yang menampilkan manipulasi data menggunakan Accessor dan pemfilteran query menggunakan Scope:
+![Bukti Route](tugas_pertemuan10_route.png)

@@ -1,27 +1,90 @@
 <?php
-
+ 
 namespace App\Models;
-
+ 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+ 
 class Buku extends Model
 {
     use HasFactory;
-
+ 
+    /**
+     * Nama tabel yang digunakan oleh model ini.
+     *
+     * @var string
+     */
     protected $table = 'buku';
-
+ 
+    /**
+     * Kolom yang dapat diisi secara mass assignment.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
-        'kode_buku', 'judul', 'kategori_id', 'pengarang', 
-        'penerbit', 'tahun_terbit', 'isbn', 'harga', 
-        'stok', 'deskripsi', 'bahasa'
+        'kode_buku',
+        'judul',
+        'kategori_id', // DIUBAH: dari 'kategori' menjadi 'kategori_id' agar match dengan database
+        'pengarang',
+        'penerbit',
+        'tahun_terbit',
+        'isbn',
+        'harga',
+        'stok',
+        'deskripsi',
+        'bahasa',
     ];
+ 
+    /**
+     * Tipe casting untuk atribut.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'tahun_terbit' => 'integer',
+        'harga' => 'decimal:2',
+        'stok' => 'integer',
+    ];
+ 
+    /**
+     * Accessor untuk format harga.
+     */
+    public function getHargaFormatAttribute(): string
+    {
+        return 'Rp ' . number_format($this->harga, 0, ',', '.');
+    }
+ 
+    /**
+     * Accessor untuk status ketersediaan.
+     */
+    public function getTersediaAttribute(): bool
+    {
+        return $this->stok > 0;
+    }
+ 
+    /**
+     * Scope untuk filter buku tersedia.
+     */
+    public function scopeTersedia($query)
+    {
+        return $query->where('stok', '>', 0);
+    }
+ 
+    /**
+     * Scope untuk filter berdasarkan kategori.
+     */
+    public function scopeKategori($query, $kategori)
+    {
+        return $query->where('kategori', $kategori);
+    }
 
     // ==========================================
-    // ACCESSORS (A)
+    // TAMBAHAN TUGAS: ACCESSORS & SCOPES BARU
     // ==========================================
 
-    // Accessor status_stok_badge
+    /**
+     * Accessor status_stok_badge
+     */
     public function getStatusStokBadgeAttribute(): string
     {
         if ($this->stok == 0) {
@@ -35,33 +98,33 @@ class Buku extends Model
         }
     }
 
-    // Accessor tahun_label
+    /**
+     * Accessor tahun_label
+     */
     public function getTahunLabelAttribute(): string
     {
-        if ($this->tahun_terbit >= 2024) {
-            return 'Buku Baru';
-        } else {
-            return 'Buku Lama';
-        }
+        return $this->tahun_terbit >= 2024 ? 'Buku Baru' : 'Buku Lama';
     }
 
-    // ==========================================
-    // SCOPES (A)
-    // ==========================================
-
-    // Scope stokMenipis()
+    /**
+     * Scope stokMenipis()
+     */
     public function scopeStokMenipis($query)
     {
         return $query->where('stok', '<', 5);
     }
 
-    // Scope hargaRange($min, $max)
+    /**
+     * Scope hargaRange($min, $max)
+     */
     public function scopeHargaRange($query, $min, $max)
     {
         return $query->whereBetween('harga', [$min, $max]);
     }
 
-    // Scope terbaru()
+    /**
+     * Scope terbaru()
+     */
     public function scopeTerbaru($query)
     {
         return $query->where('tahun_terbit', '>=', 2024);

@@ -1,40 +1,104 @@
 <?php
-
+ 
 namespace App\Models;
-
+ 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
-
+ 
 class Anggota extends Model
 {
     use HasFactory;
-
+ 
+    /**
+     * Nama tabel yang digunakan oleh model ini.
+     *
+     * @var string
+     */
     protected $table = 'anggota';
-
+ 
+    /**
+     * Kolom yang dapat diisi secara mass assignment.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
-        'nomor_anggota', 'nama', 'jenis_kelamin', 
-        'tanggal_lahir', 'telepon', 'alamat', 'status_aktif'
+        'kode_anggota',
+        'nama',
+        'email',
+        'telepon',
+        'alamat',
+        'tanggal_lahir',
+        'jenis_kelamin',
+        'pekerjaan',
+        'tanggal_daftar',
+        'status',
     ];
-
-    // ==========================================
-    // ACCESSORS (B)
-    // ==========================================
-
-    // Accessor status_badge
-    public function getStatusBadgeAttribute(): string
+ 
+    /**
+     * Tipe casting untuk atribut.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'tanggal_lahir' => 'date',
+        'tanggal_daftar' => 'date',
+    ];
+ 
+    /**
+     * Accessor untuk menghitung umur.
+     */
+    public function getUmurAttribute(): int
     {
-        if ($this->status_aktif == 1 || $this->status_aktif == 'Aktif') {
-            return '<span class="badge bg-success">Aktif</span>';
-        } else {
-            return '<span class="badge bg-secondary">Nonaktif</span>';
-        }
+        return Carbon::parse($this->tanggal_lahir)->age;
+    }
+ 
+    /**
+     * Accessor untuk lama menjadi anggota (dalam hari).
+     */
+    public function getLamaAnggotaAttribute(): int
+    {
+        return Carbon::parse($this->tanggal_daftar)->diffInDays(now());
+    }
+ 
+    /**
+     * Scope untuk filter anggota aktif.
+     */
+    public function scopeAktif($query)
+    {
+        return $query->where('status', 'Aktif');
+    }
+ 
+    /**
+     * Scope untuk filter berdasarkan jenis kelamin.
+     */
+    public function scopeJenisKelamin($query, $jenisKelamin)
+    {
+        return $query->where('jenis_kelamin', $jenisKelamin);
     }
 
-    // Accessor kategori_usia (Menghitung umur berdasarkan tanggal_lahir)
+    // ==========================================
+    // TAMBAHAN TUGAS: ACCESSORS & SCOPES BARU
+    // ==========================================
+
+    /**
+     * Accessor status_badge
+     */
+    public function getStatusBadgeAttribute(): string
+    {
+        if ($this->status === 'Aktif') {
+            return '<span class="badge bg-success">Aktif</span>';
+        }
+        return '<span class="badge bg-secondary">Nonaktif</span>';
+    }
+
+    /**
+     * Accessor kategori_usia
+     */
     public function getKategoriUsiaAttribute(): string
     {
-        $umur = Carbon::parse($this->tanggal_lahir)->age;
+        // Memanfaatkan accessor $this->umur yang sudah didefinisikan di atas
+        $umur = $this->umur;
 
         if ($umur < 20) {
             return 'Remaja';
@@ -45,20 +109,12 @@ class Anggota extends Model
         }
     }
 
-    // ==========================================
-    // SCOPES (B)
-    // ==========================================
-
-    // Scope jenisKelamin($jk)
-    public function scopeJenisKelamin($query, $jk)
-    {
-        return $query->where('jenis_kelamin', $jk);
-    }
-
-    // Scope terdaftarBulanIni()
+    /**
+     * Scope terdaftarBulanIni()
+     */
     public function scopeTerdaftarBulanIni($query)
     {
-        return $query->whereMonth('created_at', Carbon::now()->month)
-                     ->whereYear('created_at', Carbon::now()->year);
+        return $query->whereMonth('tanggal_daftar', Carbon::now()->month)
+                     ->whereYear('tanggal_daftar', Carbon::now()->year);
     }
 }
